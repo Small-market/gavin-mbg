@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gavin.mbg.mapper.ColumnMapper">
+
+    <resultMap id="baseResultMap" type="com.gavin.mbg.entity.ColumnEntity">
+        <result property="columnName" column="column_name" jdbcType="NVARCHAR"/>
+        <result property="dataType" column="data_type" jdbcType="NVARCHAR"/>
+        <result property="columnComment" column="column_comment" jdbcType="NVARCHAR"/>
+        <result property="columnKey" column="column_key" jdbcType="NVARCHAR"/>
+        <result property="extra" column="extra" jdbcType="NVARCHAR"/>
+        <result property="isNullable" column="is_nullable" jdbcType="NVARCHAR"/>
+        <result property="characterMaximumLength" column="characterMaximumLength" jdbcType="NVARCHAR"/>
+    </resultMap>
+    <select id="getColumnByTableName" resultMap="baseResultMap">
+        select column_name   ,
+               data_type,
+               column_comment,
+               column_key,
+               extra,
+               is_nullable,
+               CONCAT(IFNULL(character_maximum_length, 255), '') AS characterMaximumLength
+        from information_schema.columns
+        where table_name = #{tableName}
+          and table_schema = (select database())
+        order by ordinal_position
+    </select>
+</mapper>

@@ -1,0 +1,167 @@
+// 插件
+plugins {
+    id 'org.springframework.boot' version '2.3.7.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+    id 'java'
+    id 'java-library'
+    id 'maven-publish' // 发布maven插件
+}
+
+// 项目信息
+group 'com.gavin'
+version '0.0.1-SNAPSHOT'
+
+// 项目仓库设置
+repositories {
+    // 优先使用本地 mavene 仓库
+    mavenLocal()
+    // 阿里云 central 仓和 jcenter 仓的聚合仓
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    // 阿里云 gradle 插件仓库
+    maven { url 'https://maven.aliyun.com/repository/gradle-plugin/' }
+    // 阿里云 spring 代理仓库
+    maven { url 'https://maven.aliyun.com/repository/spring/' }
+//    // 自己的生产库maven仓库
+//    maven {
+//        credentials {
+//            username '61ce7cfea96ac5d9b038f98c'
+//            password 'Ywnuvi=(4e9d'
+//        }
+//        url 'https://packages.aliyun.com/maven/repository/2173289-release-vctkTy/'
+//    }
+    // 自己的开发版库maven仓库
+    maven {
+        credentials {
+            username '61ce7cfea96ac5d9b038f98c'
+            password 'Ywnuvi=(4e9d'
+        }
+        url 'https://packages.aliyun.com/maven/repository/2173289-snapshot-g5yEdX/'
+    }
+    // 中央maven仓库
+    mavenCentral()
+}
+
+// 依赖范围配置修改
+configurations {
+    // 修改annotationProcessor 使其可以继承
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+// 项目依赖
+dependencies {
+//    // 自己的 api maven包
+//    implementation "com.gavin:gavin-api:0.0.1-SNAPSHOT"
+
+    // web 开发
+    implementation("org.springframework.boot:spring-boot-starter-web") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    }
+    // undertow 用于替代 tomacat
+    implementation "org.springframework.boot:spring-boot-starter-undertow"
+    // 模板引擎
+    implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+
+    // 数据库相关依赖
+    implementation "mysql:mysql-connector-java:8.0.25"
+    implementation "com.baomidou:mybatis-plus-boot-starter:3.5.0"
+    implementation "com.alibaba:druid-spring-boot-starter:1.2.8"
+
+    // 模板
+    implementation 'org.apache.velocity:velocity:1.7'
+
+    // 工具
+    implementation "cn.hutool:hutool-core:5.7.19"
+    implementation 'org.apache.commons:commons-lang3:3.12.0' // 工具包
+    implementation 'commons-io:commons-io:2.11.0' // io 操作
+    implementation 'org.apache.commons:commons-configuration2:2.7' // 读取配置文件
+    implementation 'commons-beanutils:commons-beanutils:1.9.4' // configuration2 需要的依赖
+
+    // 快速开发注解
+    annotationProcessor(
+            "org.projectlombok:lombok",
+            // 配置文件解析
+            'org.springframework.boot:spring-boot-configuration-processor',
+    )
+
+    // 测试依赖
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+}
+
+// 编译java
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+// 发布当前项目到私有仓库
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'gavin-api'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+
+            // 项目信息
+            pom {
+                name = 'gavin-libray' // 项目名字
+                description = 'A concise description of my library' // 项目描述
+                url = 'http://www.gavinwish.xyz' // 项目地址
+                properties = [
+                        myProp          : "value",
+                        "prop.with.dots": "anotherValue"
+                ]
+
+                // 开源许可文件
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                // 开发者信息
+                developers {
+                    developer {
+                        id = 'gavin'
+                        name = 'gavin allen'
+                        email = '24955398787@qq.com'
+                    }
+                }
+
+//                scm {
+//                    connection = 'scm:git:git://example.com/my-library.git'
+//                    developerConnection = 'scm:git:ssh://example.com/my-library.git'
+//                    url = 'http://example.com/my-library/'
+//                }
+            }
+        }
+    }
+    // 私有仓库仓库地址
+    repositories {
+        maven {
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            def releasesRepoUrl = 'https://packages.aliyun.com/maven/repository/2173289-release-vctkTy/'
+            def snapshotsRepoUrl = 'https://packages.aliyun.com/maven/repository/2173289-snapshot-g5yEdX/'
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = '61ce7cfea96ac5d9b038f98c'
+                password = 'Ywnuvi=(4e9d'
+            }
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
