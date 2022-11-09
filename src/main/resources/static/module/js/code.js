@@ -83,18 +83,29 @@ layui.use(['form', 'jquery', 'table', 'layer'], function () {
             layer.msg("请选择一条数据");
             return false;
         }
-        const index = layer.open({
-            title: '选择模板',
-            type: 2,
-            shade: 0.2,
-            maxmin: true,
-            shadeClose: true,
-            area: '50%',
-            content: '/page/mbg/select_form.html?tableNames=' + data.map(i => i.tableName).join(","),
-        });
-        $(window).on("resize", function () {
-            layer.full(index);
-        });
+        const a = document.createElement('a');
+        a.download = '文件名';
+        a.href ="/code?tableList=" + data.map(i => i.tableName).join(",");
+        document.documentElement.appendChild(a);
+        a.click();
+        a.remove();
+
+        // $.ajax({
+        //     method: "get",
+        //     url: ,
+        // })
+        // const index = layer.open({
+        //     title: '选择模板',
+        //     type: 2,
+        //     shade: 0.2,
+        //     maxmin: true,
+        //     shadeClose: true,
+        //     area: '50%',
+        //     content: '/page/mbg/select_form.html?tableNames=' + data.map(i => i.tableName).join(","),
+        // });
+        // $(window).on("resize", function () {
+        //     layer.full(index);
+        // });
         return false;
     });
 });

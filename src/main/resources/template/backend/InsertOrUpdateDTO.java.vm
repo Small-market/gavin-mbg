@@ -1,6 +1,5 @@
-package ${package}.${moduleName}.model.request;
+package ${package}.${moduleName}.pojo.dto;
 
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,11 +23,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AdminInsertOrUpdate${className}DTO implements Serializable {
+public class InsertOrUpdate${className}DTO implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 
-    @ApiModelProperty(value = "主键ID", hidden = true, notes = "仅更新时使用")
+    @Schema(name = "主键ID", hidden = true, description = "仅更新时使用")
     private Long id;
 #foreach ($column in $columns)
 #if($column.columnName != $pk.columnName
@@ -41,13 +41,13 @@ public class AdminInsertOrUpdate${className}DTO implements Serializable {
     && $column.columnName != "remark"
 )
 
-    @ApiModelProperty(value = "$column.comments"#if(!$column.nullable), required = true#end)
+    @Schema(name = "$column.columnComment"#if(!$column.nullable), required = true#end)
 #if(!$column.nullable)
 #if($column.attrType == 'String')
-    @Size(min = 1, max = $column.characterMaximumLength, message = "【$column.comments】长度须在 1 至 $column.characterMaximumLength 位之间")
-    @NotBlank(message = "$column.comments不能为空")
+    @Size(min = 1, max = $column.characterMaximumLength, message = "【$column.columnComment】长度须在 1 至 $column.characterMaximumLength 位之间")
+    @NotBlank(message = "$column.columnComment不能为空")
 #else
-    @NotNull(message = "$column.comments不能为空")
+    @NotNull(message = "$column.columnComment不能为空")
 #end
 #end
     private $column.attrType $column.camelAttrName;

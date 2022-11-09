@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Arrays;
 
 /**
  * 代码生成器
@@ -46,14 +48,18 @@ public class SysGeneratorController {
   /**
    * 生成代码
    */
-  @PostMapping("code")
-  public void code(@RequestBody MBGEntityVo mbg, HttpServletResponse response) throws IOException {
+  @GetMapping("code")
+  public void code(String tableList, HttpServletResponse response) throws IOException {
+    MBGEntityVo mbg = new MBGEntityVo();
+    mbg.setTableList(Arrays.asList(tableList.split(",")));
+
     byte[] data = sysGeneratorService.generatorCode(mbg);
 
     response.reset();
-    response.setHeader("Content-Disposition", "attachment; filename=\"" + IdUtil.simpleUUID() + ".zip\"");
+//    response.setHeader("Content-Disposition", "attachment; filename=\"" + IdUtil.simpleUUID() + ".zip\"");
+    response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode("模板", "UTF-8") + ".zip\"");
     response.addHeader("Content-Length", "" + data.length);
-    response.setContentType("application/octet-stream; charset=UTF-8");
+    response.setContentType("application/octet-stream;charset=UTF-8");
 
     IOUtils.write(data, response.getOutputStream());
   }

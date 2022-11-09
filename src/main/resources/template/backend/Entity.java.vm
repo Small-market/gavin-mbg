@@ -1,12 +1,13 @@
-package ${package}.${moduleName}.entity;
+package ${package}.${moduleName}.pojo.entity;
 
-import cc.uncarbon.framework.crud.entity.HelioBaseEntity;
+import com.shbw.vat.common.base.Entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.time.LocalDateTime;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
@@ -25,7 +26,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Data
 @TableName(value = "${tableName}")
-public class ${className}Entity extends HelioBaseEntity<Long> {
+public class ${className}Entity extends Entity<Long> {
 #foreach ($column in $columns)
 #if($column.columnName != $pk.columnName
 	&& $column.columnName != "tenant_id"
@@ -38,7 +39,7 @@ public class ${className}Entity extends HelioBaseEntity<Long> {
 	&& $column.columnName != "remark"
 )
 
-	@ApiModelProperty(value = "$column.comments")
+	@Schema(name = "$column.columnComment")
 	@TableField(value = "$column.columnName")
 	private $column.attrType $column.camelAttrName;
 #end

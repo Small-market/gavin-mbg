@@ -33,6 +33,7 @@ layui.use(['form', 'table'], function () {
             tableList: tableNames.split(",")
         }
         JSON.stringify(param)
+        window.open('/sys/downloadImage');
         $.ajax({
             method: "post",
             url: "/code",

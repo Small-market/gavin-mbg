@@ -15,7 +15,6 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,8 +104,7 @@ public class GenUtils {
     map.put("package", config.getString("package"));
     map.put("moduleName", config.getString("moduleName"));
     map.put("author", config.getString("author"));
-
-//    map.put("generateType", generateType);
+    map.put("generateType", config.getString("generateType"));
 
     // 生成后台管理菜单主键ID
     Snowflake snowflake = IdUtil.getSnowflake(30L, 30L);
@@ -151,11 +149,13 @@ public class GenUtils {
     // 后端
     templates.add("template/backend/Entity.java.vm");
     templates.add("template/backend/Mapper.java.vm");
+    templates.add("template/backend/Mapper.xml.vm");
     templates.add("template/backend/Service.java.vm");
-    templates.add("template/backend/AdminController.java.vm");
-    templates.add("template/backend/AdminListDTO.java.vm");
-    templates.add("template/backend/AdminInsertOrUpdateDTO.java.vm");
-    templates.add("template/backend/BO.java.vm");
+    templates.add("template/backend/ServiceImpl.java.vm");
+    templates.add("template/backend/Controller.java.vm");
+    templates.add("template/backend/ListDTO.java.vm");
+    templates.add("template/backend/InsertOrUpdateDTO.java.vm");
+    templates.add("template/backend/VO.java.vm");
     templates.add("template/backend/sys_menu.sql.vm");
 
 //    if (Constant.GENERATE_TYPE_CLOUD.equals(generateType)) {
@@ -218,15 +218,23 @@ public class GenUtils {
       backendPathPrefix += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
     }
     if (template.contains("Entity.java.vm")) {
-      return backendPathPrefix + "entity" + File.separator + className + "Entity.java";
+      return backendPathPrefix + "pojo" + File.separator + "entity" + File.separator + className + "Entity.java";
     }
 
     if (template.contains("Mapper.java.vm")) {
       return backendPathPrefix + "mapper" + File.separator + className + "Mapper.java";
     }
 
+    if (template.contains("Mapper.xml.vm")) {
+      return "后端代码" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
+    }
+
     if (template.contains("Service.java.vm")) {
       return backendPathPrefix + "service" + File.separator + className + "Service.java";
+    }
+
+    if (template.contains("ServiceImpl.java.vm")) {
+      return backendPathPrefix + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
     }
 
     if (template.contains("Facade.java.vm")) {
@@ -237,20 +245,20 @@ public class GenUtils {
       return backendPathPrefix + "biz" + File.separator + className + "FacadeImpl.java";
     }
 
-    if (template.contains("AdminController.java.vm")) {
-      return backendPathPrefix + "Admin" + className + "Controller.java";
+    if (template.contains("Controller.java.vm")) {
+      return backendPathPrefix + "controller" + File.separator + className + "Controller.java";
     }
 
-    if (template.contains("AdminListDTO.java.vm")) {
-      return backendPathPrefix + "model" + File.separator + "request" + File.separator + "AdminList" + className + "DTO.java";
+    if (template.contains("ListDTO.java.vm")) {
+      return backendPathPrefix + "pojo" + File.separator + "dto" + File.separator + "List" + className + "DTO.java";
     }
 
-    if (template.contains("AdminInsertOrUpdateDTO.java.vm")) {
-      return backendPathPrefix + "model" + File.separator + "request" + File.separator + "AdminInsertOrUpdate" + className + "DTO.java";
+    if (template.contains("InsertOrUpdateDTO.java.vm")) {
+      return backendPathPrefix + "pojo" + File.separator + "dto" + File.separator + "InsertOrUpdate" + className + "DTO.java";
     }
 
-    if (template.contains("BO.java.vm")) {
-      return backendPathPrefix + "model" + File.separator + "response" + File.separator + className + "BO.java";
+    if (template.contains("VO.java.vm")) {
+      return backendPathPrefix + "pojo" + File.separator + "vo" + File.separator + className + "VO.java";
     }
 
     if (template.contains("sys_menu.sql.vm")) {

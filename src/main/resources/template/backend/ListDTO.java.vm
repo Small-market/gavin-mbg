@@ -1,13 +1,13 @@
-package ${package}.${moduleName}.model.request;
+package ${package}.${moduleName}.pojo.dto;
 
-import cc.uncarbon.framework.core.constant.HelioConstant;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import lombok.experimental.SuperBuilder;
+import cn.hutool.core.date.DatePattern;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AdminList${className}DTO implements Serializable {
+public class List${className}DTO implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 
@@ -40,19 +40,19 @@ public class AdminList${className}DTO implements Serializable {
     && $column.columnName != "remark"
 )
 
-    @ApiModelProperty(value = "$column.comments#if($column.attrType == 'String')(关键词)#end")
+    @Schema(name = "$column.columnComment#if($column.attrType == 'String')(关键词)#end")
     private $column.attrType $column.camelAttrName;
 #end
 #end
 
-    @ApiModelProperty(value = "开始时间区间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = HelioConstant.Jackson.DATE_TIME_FORMAT, timezone = HelioConstant.Jackson.TIME_ZONE)
-    @DateTimeFormat(pattern = HelioConstant.Jackson.DATE_TIME_FORMAT)
+    @Schema(name = "开始时间区间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime beginAt;
 
-    @ApiModelProperty(value = "结束时间区间")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = HelioConstant.Jackson.DATE_TIME_FORMAT, timezone = HelioConstant.Jackson.TIME_ZONE)
-    @DateTimeFormat(pattern = HelioConstant.Jackson.DATE_TIME_FORMAT)
+    @Schema(name = "结束时间区间")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DatePattern.NORM_DATETIME_PATTERN)
+    @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime endAt;
 
 }

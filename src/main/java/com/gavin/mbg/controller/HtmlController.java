@@ -39,5 +39,4 @@ public class HtmlController {
 //  @RequestMapping(value = "/list", method = RequestMethod.GET)
 //  @ResponseBody
 
-
 }

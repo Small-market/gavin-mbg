@@ -3,6 +3,7 @@ mbg:
   packagePath: com.gavin.module
   moduleName: sys
   author: Gavin
+  generateType: boot
   tablePrefix: ''
   jdbcToJavaMap:
     tinyint: Integer

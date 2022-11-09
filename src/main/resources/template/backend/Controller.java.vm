@@ -1,0 +1,50 @@
+package ${package}.${moduleName}.controller;
+
+#if(${generateType} == 'boot')
+import ${package}.${moduleName}.service.${className}Service;
+import ${package}.${moduleName}.pojo.entity.${className}Entity;
+import ${package}.${moduleName}.pojo.dto.InsertOrUpdate${className}DTO;
+import com.shbw.vat.common.base.SuperController;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
+#end
+#if(${generateType} == 'cloud')
+import cc.uncarbon.framework.core.page.PageParam;
+import cc.uncarbon.framework.core.page.PageResult;
+import cc.uncarbon.framework.web.model.request.IdsDTO;
+import ${package}.${moduleName}.facade.${className}Facade;
+import ${package}.${moduleName}.model.request.AdminInsertOrUpdate${className}DTO;
+import ${package}.${moduleName}.model.request.AdminList${className}DTO;
+import ${package}.${moduleName}.model.response.${className}BO;
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+#end
+
+
+/**
+ * 后台管理-${comments}管理接口
+ *
+ * @author ${author}
+ */
+@Slf4j
+@Tag(name = "${comments}管理接口", description = "${comments}管理接口")
+#if(${generateType} == 'boot')
+@RequestMapping("/${classname}s")
+#end
+#if(${generateType} == 'cloud')
+@RequestMapping("/${classname}s")
+#end
+@RestController
+public class ${className}Controller extends SuperController<${className}Service,#foreach ($column in ${columns})#if($column.columnName == $pk.columnName)${column.attrType}#end#end, ${className}Entity, ${className}Entity, InsertOrUpdate${className}DTO, InsertOrUpdate${className}DTO> {
+
+
+}

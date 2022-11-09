@@ -1,0 +1,24 @@
+package ${package}.${moduleName}.service.impl;
+
+
+import ${package}.${moduleName}.service.${className}Service;
+import ${package}.${moduleName}.pojo.entity.${className}Entity;
+import ${package}.${moduleName}.mapper.${className}Mapper;
+import com.shbw.vat.common.base.SuperServiceImpl;
+import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * ${comments}
+ *
+ * @author ${author}
+ */
+@Slf4j
+@Service
+public class ${className}ServiceImpl extends SuperServiceImpl<${className}Mapper, ${className}Entity> implements ${className}Service {
+
+}

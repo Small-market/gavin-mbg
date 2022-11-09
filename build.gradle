@@ -91,17 +91,10 @@ dependencies {
     }
 }
 
-// 编译java
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-// 发布当前项目到私有仓库
+// 发布项目到私有maven仓库
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = 'gavin-api'
             from components.java
             versionMapping {
                 usage('java-api') {
@@ -111,42 +104,9 @@ publishing {
                     fromResolutionResult()
                 }
             }
-
-            // 项目信息
-            pom {
-                name = 'gavin-libray' // 项目名字
-                description = 'A concise description of my library' // 项目描述
-                url = 'http://www.gavinwish.xyz' // 项目地址
-                properties = [
-                        myProp          : "value",
-                        "prop.with.dots": "anotherValue"
-                ]
-
-                // 开源许可文件
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-
-                // 开发者信息
-                developers {
-                    developer {
-                        id = 'gavin'
-                        name = 'gavin allen'
-                        email = '24955398787@qq.com'
-                    }
-                }
-
-//                scm {
-//                    connection = 'scm:git:git://example.com/my-library.git'
-//                    developerConnection = 'scm:git:ssh://example.com/my-library.git'
-//                    url = 'http://example.com/my-library/'
-//                }
-            }
         }
     }
+
     // 私有仓库仓库地址
     repositories {
         maven {
@@ -161,7 +121,6 @@ publishing {
         }
     }
 }
-
 test {
     useJUnitPlatform()
 }
