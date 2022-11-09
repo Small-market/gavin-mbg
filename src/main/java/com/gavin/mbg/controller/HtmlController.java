@@ -14,7 +14,7 @@ public class HtmlController {
   /**
    * 返回生成代码页面
    */
-  @GetMapping({"page/code.html"})
+  @GetMapping({"page/code.html", ""})
   public String codeHtml() {
     return "page/code";
   }
