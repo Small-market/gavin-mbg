@@ -40,17 +40,17 @@ public class List${className}DTO implements Serializable {
     && $column.columnName != "remark"
 )
 
-    @Schema(name = "$column.columnComment#if($column.attrType == 'String')(关键词)#end")
+    @Schema(description = "$column.columnComment#if($column.attrType == 'String')(关键词)#end")
     private $column.attrType $column.camelAttrName;
 #end
 #end
 
-    @Schema(name = "开始时间区间")
+    @Schema(description = "开始时间区间")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DatePattern.NORM_DATETIME_PATTERN)
     @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime beginAt;
 
-    @Schema(name = "结束时间区间")
+    @Schema(description = "结束时间区间")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DatePattern.NORM_DATETIME_PATTERN)
     @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     private LocalDateTime endAt;

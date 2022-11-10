@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import cn.hutool.core.date.DatePattern;
-import lombok.experimental.SuperBuilder;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -22,9 +21,8 @@ import java.math.BigDecimal;
  *
  * @author ${author}
  */
-@Schema(name =  "${comments}")
+@Schema(description =  "${comments}")
 @Accessors(chain = true)
-@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -32,7 +30,7 @@ public class ${className}VO implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 
-    @Schema(name = "主键ID")
+    @Schema(description = "主键ID")
     private Long id;
 #foreach ($column in $columns)
 #if($column.columnName != $pk.columnName
@@ -44,7 +42,7 @@ public class ${className}VO implements Serializable {
     && $column.columnName != "remark"
     )
 
-    @Schema(name = "$column.columnComment")
+    @Schema(description = "$column.columnComment")
 #if($column.columnName == "created_at" || $column.columnName == "updated_at")
     @DateTimeFormat(pattern = DatePattern.NORM_DATETIME_PATTERN)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = DatePattern.NORM_DATETIME_PATTERN)

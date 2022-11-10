@@ -27,7 +27,7 @@ public class InsertOrUpdate${className}DTO implements Serializable {
 
     private static final long SerialVersionUID = 1L;
 
-    @Schema(name = "主键ID", hidden = true, description = "仅更新时使用")
+    @Schema(hidden = true, description = "仅更新时使用")
     private Long id;
 #foreach ($column in $columns)
 #if($column.columnName != $pk.columnName
@@ -41,7 +41,7 @@ public class InsertOrUpdate${className}DTO implements Serializable {
     && $column.columnName != "remark"
 )
 
-    @Schema(name = "$column.columnComment"#if(!$column.nullable), required = true#end)
+    @Schema(description = "$column.columnComment"#if(!$column.nullable), required = true#end)
 #if(!$column.nullable)
 #if($column.attrType == 'String')
     @Size(min = 1, max = $column.characterMaximumLength, message = "【$column.columnComment】长度须在 1 至 $column.characterMaximumLength 位之间")

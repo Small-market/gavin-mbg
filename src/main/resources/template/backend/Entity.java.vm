@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
-import lombok.experimental.SuperBuilder;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -38,7 +37,7 @@ public class ${className}Entity extends Entity<Long> {
 	&& $column.columnName != "remark"
 )
 
-	@Schema(name = "$column.columnComment")
+	@Schema(description = "$column.columnComment")
 	@TableField(value = "$column.columnName")
 	private $column.attrType $column.camelAttrName;
 #end
